@@ -1,14 +1,15 @@
+
 // Selection de l'id colors
 const ColorSelected = document.querySelector("#colors");
- console.log(ColorSelected);
+ 
 
 //Selection de la quantité
 const QuantitySelected = document.querySelector("#quantity");
-console.log(QuantitySelected);
+
 
 // bouton Ajouter au panier
 const BtnPanier = document.querySelector("#addToCart");
-console.log(BtnPanier);
+
 
 
 const GetProductId = () => {
@@ -62,10 +63,10 @@ let productRegistred = (product) => {
  if (ColorSelected.value == false){
      confirm("Veuillez sélectionner une couleur ");
     }else if (QuantitySelected.value == 0){
-         confirm("Veuillez sélectionner le nombre d'articles souhaités");
+         confirm("Veuillez sélectionner le nombre d'article(s) souhaité(s)");
         } else {
              alert("Votre article a bien été rajouté au panier");
-         }
+         
 
          //enregistrement des valeurs dans l'objet  optionProduct
          let optionProduct = {
@@ -82,16 +83,41 @@ let productRegistred = (product) => {
      console.log(optionProduct);
 
      /************************************** local storage ****************************************** */
- 
+         //Variable qui contient local storage 'stockage local'
+         let localStorageProducts = JSON.parse(localStorage.getItem("basket"));
+         
 
+         // si le local storage est là
+         if (localStorageProducts) {
+            // On rechercher avec la méthode find() si l'id et la couleur d'un article est déjà présent
+            
+            let item = localStorageProducts.find (
+                (item) => 
+                  item.id == optionProduct.id && item.color == optionProduct.color
+                  );
 
+        //si oui on ajoute juste la nouvelle quantité et la mise à jour du prix à l'article 
+        
+        if (item) {
+            item.quantity = item.quantity + optionProduct.quantity;
+            item.totalPrice = item.price + optionProduct.quantity;
+            console.log(item.totalPrice);
+            localStorage.setItem("basket", JSON.stringify(localStorageProducts));
+            return;
+        }
+        // si le produit n'est pas encore dans le local storage alors on push le nouveau produit selectionné
+        localStorageProducts.push(optionProduct);
+        localStorage.setItem("basket", JSON.stringify(localStorageProducts));
+ } else{
+     // sinon création d'un tableau ou l'on push l'objet 'optionProduct'
+     let NewTabLocalStorage = [];
+     NewTabLocalStorage.push(optionProduct);
+        localStorage.setItem("basket", JSON.stringify(NewTabLocalStorage)); 
+    }
 
+  }
 
-
-
-
-
-    })
-}
+ });
+};
 
 
