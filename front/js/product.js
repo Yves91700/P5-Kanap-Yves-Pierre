@@ -40,7 +40,7 @@ let productSelected = (product) => {
     document.querySelector(".item__img").innerHTML += `<img src="${product.imageUrl}" alt="${product.altTxt}">`;
     document.querySelector("#title").textContent += product.name;
     document.querySelector("#price").textContent += product.price;
-    document.querySelector("#description").textContent += product.description;
+    document.querySelector("#description").textContent += product.description; 
 
     // selection de la couleur dans le html
     let ColorId = document.querySelector("#colors");
@@ -100,7 +100,7 @@ let productRegistred = (product) => {
         
         if (item) {
             item.quantity = item.quantity + optionProduct.quantity;
-            item.totalPrice = item.price + optionProduct.quantity;
+            item.totalPrice += item.price * optionProduct.quantity;
             console.log(item.totalPrice);
             localStorage.setItem("basket", JSON.stringify(localStorageProducts));
             return;

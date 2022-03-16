@@ -44,7 +44,51 @@ if (basket === null || basket.length === 0) {
 
   // fonction récuperation des prix et de la somme total 
   let addPriceFunction = () => {
-      console.log(basket);
-      let found = basket.map((element) => element.totalPrice);
-      console.log(found);
-  }
+    console.log(basket);
+    let found = basket.map((element) => element.totalPrice);
+    console.log(found);
+
+    const reducer = (previousValue, currentValue) => previousValue + currentValue;
+    let somme = found.reduce(reducer);
+    console.log(somme);
+    return somme; 
+};
+
+//fonction récupération des quantités et quantité total 
+let addQuantFunction = () => {
+    console.log(basket);
+    let found2 = basket.map((element) => element.quantity);
+    console.log(found2);
+
+    const reducer = (previousValue, currentValue) => previousValue + currentValue;
+    let quant = found2.reduce (reducer);
+    console.log(quant);
+    return quant ;
+};
+
+// fonction  de mise à jour du local storage products
+let majLocalStorageProducts = () => {
+    localStorage.setItem("basket", JSON.stringify(basket))
+};
+
+// fonction pour l'injection dans le dom de données addPriceFunction et addQuantFunction
+function injectSommeQant () {
+    // appel de la fonction addPriceFunction qui donne la variable somme
+    let sommeTotale = addPriceFunction();
+    //injection de sommeTotale dans le dom
+    document.querySelector("#totalPrice").textContent = sommeTotale;
+
+    localStorage.setItem("sommeTotale", JSON.stringify(sommeTotale));
+
+    //appel de la fonction addQuantFunction qui donne la variable quant
+    let quantTotale = addQuantFunction();
+
+    //injection de la quantité dans le dom 
+    document.querySelector("#totalQuantity").textContent = quantTotale;
+
+    localStorage.setItem("quantTotale", JSON.stringify(quantTotale));
+
+    majLocalStorageProducts();
+
+}
+injectSommeQant();
