@@ -27,7 +27,7 @@ if (basket === null || basket.length === 0) {
       </div>
       <div class="cart__item__content__settings">
         <div class="cart__item__content__settings__quantity">
-          <p> Qté :${product.quantity} </p>
+          <p id="quantités"> Qté :${product.quantity} </p>
           <p id="sousTotal">Prix total pour cet article: ${product.totalPrice}€</p> 
           <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${product.quantity}">
         </div>
@@ -92,3 +92,64 @@ function injectSommeQant () {
 
 }
 injectSommeQant();
+
+console.log(basket);
+let itemQuantity = Array.from(document.querySelectorAll(".itemQuantity"));
+let sousTotal = Array.from(document.querySelectorAll("#sousTotal"));
+let screenQuantity = Array.from(document.querySelectorAll("#quantités"));
+
+// fonction pour pouvoir changer la quantité dans la quantité déroulant 
+itemQuantity.forEach(function(quantity, i){
+    quantity.addEventListener("change", (event) =>{
+        event.preventDefault();
+        let newArticlePrice = quantity.value * basket[i].price;
+        console.log(quantity.value);
+
+       screenQuantity[i].textContent = "Qté: " + quantity.value;
+        basket[i].quantity = parseInt(quantity.value, 10);
+
+        sousTotal[i].textContent = "prix total pour cet article:" + newArticlePrice + " €";
+        basket[i].totalPrice = newArticlePrice;
+
+        console.log(`le prix de ${basket[i].name} est passé à ${newArticlePrice}`);
+        injectSommeQant();
+
+    });
+});
+
+/******************************************Pour effectuer la suppression d'article****** */
+// pour recuperer la node list des boutons supprimer et transformation en tableau avec Array.from
+
+let supprimeSelection = Array.from(document.querySelectorAll(".deleteItem"));
+
+//new tableau afin de recuperer le tableau basket  et de controler les suppression 
+let tabControlSupp = [];
+
+// création de la fonction de suppression 
+
+function supprProduct() {
+    for(let i = 0; i < supprimeSelection.length; i++) {
+        // l'ecoute d'évenement au click sur le tableau des boutons supprimer 
+        supprimeSelection[i].addEventListener("click",() => {
+            // suppression de l'article visuel sur la page 
+            supprimeSelection[i].parentElement.style.display = "none";
+
+            // copie du tableau basket dans le tabControlSupp
+            tabControlSupp = basket;
+
+            // supprimer un element a chaque index [i] du tableau ecouté  avec Array.prototype.splice ()
+            tabControlSupp.splice ([i], 1);
+
+            // mise a jour du local storage 
+            basket = localStorage.setItem("basket", JSON.stringify(tabControlSupp))
+
+            // pour rafraichir la page apres suppression article 
+            window.location.href = "cart.html";
+        
+        });
+    }
+}
+
+supprProduct();
+
+/*****************************************Formulaire************************ */
