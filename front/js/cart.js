@@ -153,3 +153,163 @@ function supprProduct() {
 supprProduct();
 
 /*****************************************Formulaire************************ */
+
+// selection du bouton commander
+const btnCommander = document.querySelector("#order");
+
+// ecoute du bouton commander au click  pour valider et envoyer le formulaire et la commande  au back-end
+btnCommander.addEventListener('click',(event) =>{
+    event.preventDefault();
+
+    //variable de contact
+    let contact = {
+        firstName: document.querySelector("#firstName").value,
+        lastName: document.querySelector("#lastName").value,
+        address: document.querySelector("#address").value,
+        city: document.querySelector("#city").value,
+        email: document.querySelector("#email").value,
+    };
+
+    console.log(contact);
+
+    /**************************************Gestion du formulaire************** */
+// creation regexp pour le champs first name last name et ville
+const regExpPrenomNomVille = (value) =>{
+    return /^[A-Z][A-Za-z\é\è\ê\-]+$/.test(value);
+};
+
+//function du control de champs pour Prénom  
+function controlPrenom(){
+    const firstName = contact.firstName;
+    let inputFirstname = document.querySelector("#firstName");
+    if(regExpPrenomNomVille(firstName)){
+        inputFirstname.style.backgroundColor = "green";
+        document.querySelector("#firstNameErrorMsg").textContent = "Prenom valide";
+        return true;
+    } else {
+        inputFirstname.style.backgroundColor = "red";
+        document.querySelector("#firstNameErrorMsg").textContent = "'rentrez un Prenom valide' Ex: Yves ";
+        return false; 
+    };
+};
+//controlPrenom();
+
+// function du controle de champs pour Nom
+function controlNom(){
+    const lastName = contact.lastName;
+    let inputLastname = document.querySelector("#lastName");
+    if(regExpPrenomNomVille(lastName)){
+        inputLastname.style.backgroundColor = "green";
+        document.querySelector("#lastNameErrorMsg").textContent = "Nom valide";
+        return true;
+    } else {
+        inputLastname.style.backgroundColor = "red";
+        document.querySelector("#lastNameErrorMsg").textContent = "'rentrez un Nom valide' Ex: Dupont ";
+        return false; 
+    };
+};
+//controlNom();
+
+// function du controle de champs pour Ville
+function controlCity(){
+    const city = contact.city;
+    let inputCity = document.querySelector("#city");
+    if(regExpPrenomNomVille(city)){
+        inputCity.style.backgroundColor = "green";
+        document.querySelector("#cityErrorMsg").textContent = "Ville valide";
+        return true;
+    } else {
+        inputCity.style.backgroundColor = "red";
+        document.querySelector("#cityErrorMsg").textContent = "'rentrez une Ville valide' Ex: Paris ";
+        return false; 
+    };
+};
+//controlCity();
+
+
+
+// creation regexp pour le control du champs address
+const regExpAddress = (value) => {
+    return /^[a-zA-Z0-9.,-_ ]{5,50}[ ]{0,2}$/.test(value);
+};
+// function du control du champs address
+function controlAddress(){
+    const addresse = contact.address;
+    let inputAddress = document.querySelector("#address");
+    if(regExpAddress(addresse)){
+        inputAddress.style.backgroundColor = "green";
+        document.querySelector("#addressErrorMsg").textContent = "Addresse valide";
+        return true;
+    } else {
+        inputAddress.style.backgroundColor = "red";
+        document.querySelector("#addressErrorMsg").textContent = "'rentrez une adresse valide' Ex:  49 rue de la victoire ";
+        return false; 
+    };
+};
+//controlAddress();
+
+
+
+    
+//création d'une regexp pour le controle du champs email 
+const regExpEmail = (value) => {
+    return /^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$/.test(value);
+};
+//console.log( regExpEmail);
+function controlMail(){
+    const mail = contact.email;
+    let inputMail = document.querySelector("#email");
+    if(regExpEmail(mail)){
+        inputMail.style.backgroundColor = "green";
+        document.querySelector("#emailErrorMsg").textContent = "Email valide";
+        return true;
+    } else {
+        inputMail.style.backgroundColor = "red";
+        document.querySelector("#emailErrorMsg").textContent = "'rentrez un email valide' Ex: (dupond91@gmail.com) ";
+        return false; 
+    };
+};
+//controlMail();
+
+// controle de validité du formulaire complet avant d'envoyer dans le local storage 
+
+if(
+    controlPrenom() && controlNom()&& controlAddress() && controlCity() && controlMail()
+) {
+    // enregister la commande dans le local storage
+    localStorage.setItem("contact", JSON.stringify(contact));
+    document.querySelector("#order").value = "Articles et formulaire valide , Commander!"
+
+    sendToServer();
+}else{
+    console.error("Veuillez bien remplir le formulaire");
+}
+
+// requète au serveur et post des donnés
+
+function sendToServer(){
+    const sendToServer = fetch("http://localhost:3000/api/products/order", {
+        method: "POST",
+        body: JSON.stringify({ contact, products }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      //pour stocker la reponse de l'api (orderid)
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+})
