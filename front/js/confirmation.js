@@ -8,12 +8,16 @@ const basket = JSON.parse(localStorage.getItem("basket"));
 
 const total = JSON.parse(localStorage.getItem("sommeTotale"));
 
-const idConfirmation = document.querySelector(".orderId");
+const idConfirmation = document.querySelector("#orderId");
 
 
 // fonction pour afficher l'etat de la commande orderId dans le dom
 
 (function () {
-    idConfirmation.innerHTML = `<p>Commande validée ! <br>Votre numéro de commande est : ${orderId}</p>`;
-});
+   idConfirmation.innerHTML = `
+  <p>Commande validée ! <br>Votre numéro de commande est : 
+  <strong>${orderId}</strong></p> 
+  `;
+})();
+localStorage.clear();
 
