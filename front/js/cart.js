@@ -296,20 +296,36 @@ function sendToServer(){
         },
       })
 
-      //pour stocker la reponse de l'api (orderid)
+      //pour stocker la reponse de l'api (orderid
+      .then((response) => {
+          return response.json();
+      })
+      .then ((server) => {
+          orderId = server.orderId;
+          console.log(orderId);
+      });
 
+      // pour diriger vers la page confirmation si la varialbe orderId n'est pas vide 
 
+      if(orderId != "") {
+          location.href = "confirmation.html?id=" + orderId;
+      }
 }
 
+});
 
+/******************************************fin de la requête et post des données******************** */
+let dataFormulaire = JSON.parse(localStorage.getItem("contact"));
+console.log(dataFormulaire);
 
+if(dataFormulaire) {
+    document.querySelector("#firstName").value = dataFormulaire.firstName;
+    document.querySelector("#lastName").value = dataFormulaire.lastName;
+    document.querySelector("#address").value = dataFormulaire.address;
+    document.querySelector("#city").value = dataFormulaire.city;
+    document.querySelector("#email").value = dataFormulaire.email;
 
+}else {
+    console.log("Le formulaire est vide");
+}
 
-
-
-
-
-
-
-
-})
