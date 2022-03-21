@@ -22,13 +22,13 @@ if (basket === null || basket.length === 0) {
     <div class="cart__item__content">
       <div class="cart__item__content__description">
         <h2>${product.name}</h2>
-        <p> Couleur du produit:${product.color}</p>
-        <p> Prix unitaire:${product.price}</p>
+        <p> Couleur du produit : ${product.color}</p>
+        <p> Prix unitaire : ${product.price}</p>
       </div>
       <div class="cart__item__content__settings">
         <div class="cart__item__content__settings__quantity">
-          <p id="quantités"> Qté :${product.quantity} </p>
-          <p id="sousTotal">Prix total pour cet article: ${product.totalPrice}€</p> 
+          <p id="quantités"> Qté : ${product.quantity} </p>
+          <p id="sousTotal">Prix total pour cet article : ${product.totalPrice}€</p> 
           <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${product.quantity}">
         </div>
         <div class="cart__item__content__settings__delete">
@@ -108,7 +108,7 @@ itemQuantity.forEach(function(quantity, i){
        screenQuantity[i].textContent = "Qté: " + quantity.value;
         basket[i].quantity = parseInt(quantity.value, 10);
 
-        sousTotal[i].textContent = "prix total pour cet article:" + newArticlePrice + " €";
+        sousTotal[i].textContent = "prix total pour cet article:"  + newArticlePrice + " €";
         basket[i].totalPrice = newArticlePrice;
 
         console.log(`le prix de ${basket[i].name} est passé à ${newArticlePrice}`);
@@ -230,7 +230,7 @@ function controlCity(){
 
 // creation regexp pour le control du champs address
 const regExpAddress = (value) => {
-    return /^[a-zA-Z0-9.,-_ ]{5,50}[ ]{0,2}$/.test(value);
+    return /^[a-zA-Z0-9\é\è\ê\.,-_ ]{5,50}[ ]{0,2}$/.test(value);
 };
 // function du control du champs address
 function controlAddress(){

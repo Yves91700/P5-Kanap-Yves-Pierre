@@ -11,7 +11,7 @@ fetch(KanapApi)
 })
 .then((products) => {
     console.log(products);
-    // boucle
+    // boucle utilisation de "for of " qui permet 'itérer sur les valeurs d'un array
     for (data of products){
         console.log(data);
         document.getElementById("items").innerHTML += `<a href="./product.html?id=${data._id}">
