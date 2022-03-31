@@ -9,7 +9,7 @@ let products =[];
 let orderId = "";
 
 // Condition de vérification si le panier existe et ou est vide et modification texte
-if (basket === null || basket.length === 0) {
+if (basket === null || basket.length >= 0) {
     document.querySelector("#titrePanier").textContent = "Le panier est vide !";
   } else {
     document.querySelector("#titrePanier").textContent = "Votre panier";

@@ -3,7 +3,7 @@
 const KanapApi = "http://localhost:3000/api/products";
 console.log(KanapApi);
 
-// requete http de type GET vers l'api
+// requete http de type GET vers l'api en utilisant "Fetch"en faisant une promise avec la methode .then
 
 fetch(KanapApi)
 .then((response) => {
